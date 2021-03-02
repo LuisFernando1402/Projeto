@@ -14,6 +14,19 @@ namespace DEV0102
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request.ServerVariables["QUERY_STRING"].Contains("NovoUsuario"))
+            {
+                panelusuariocadastrado.Visible = false;
+            }
+            else
+            {
+                if (Session["codigoUsuario"] == null)
+                    Response.Redirect("Login.aspx");
+                else
+                    panelusuariocadastrado.Visible = true;
+
+            }
+        
 
         }
 
@@ -87,7 +100,7 @@ namespace DEV0102
                         btnCadastrar.Text = "Cadastrar";
                         gridUsuario.DataBind();
                         LimparCampos();
-                        ExibirMensagem("Usuário Editado com sucesso!");                        
+                        ExibirMensagem("Usuário Editado com sucesso!");
 
                     }
                     else
@@ -118,7 +131,7 @@ namespace DEV0102
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ExibirMensagem("Erro ao salvar cadastro! Entre em contato com o administrador do sistema.");
             }
@@ -127,41 +140,22 @@ namespace DEV0102
 
         protected void gridUsuario_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            if (e.CommandName == "Deletar")
+
+
+        }
+
+        protected void btnAtualizar_Click(object sender, EventArgs e)
+        {
+            List<tabUsuario> objlstUsuario = new List<tabUsuario>();
+
+            usuarioDAL uDal = new usuarioDAL();
+            objlstUsuario = uDal.listartodosusuario();
+            foreach (tabUsuario objU in objlstUsuario)
             {
-                int linhaClicada = Convert.ToInt32(e.CommandArgument);
-                GridViewRow row = gridUsuario.Rows[linhaClicada];
-                int codigo = Convert.ToInt32(gridUsuario.DataKeys[linhaClicada]["codigo"].ToString());
-                //int codigoUsuario = Convert.ToInt32(row.Cells[1].Text);
 
-                usuarioDAL uDal = new usuarioDAL();
-                uDal.deletarUsuario(codigo);
-
-                gridUsuario.DataBind();
-                ExibirMensagem("Usuário excluido");
-            }
-            else if (e.CommandName == "Editar")
-            {
-                int linhaClicada = Convert.ToInt32(e.CommandArgument);
-                GridViewRow row = gridUsuario.Rows[linhaClicada];
-                int codigo = Convert.ToInt32(gridUsuario.DataKeys[linhaClicada]["codigo"].ToString());
-                //int codigoUsuario = Convert.ToInt32(row.Cells[1].Text);
-
-                usuarioDAL objDal = new usuarioDAL();
-                tabUsuario obj =  objDal.ConsultarUsuarioPorCodigo(codigo);
-
-                txtBairro.Text = obj.bairro;
-                txtCEP.Text = obj.cep;
-                txtCidade.Text = obj.cidade;
-                txtEmail.Text = obj.email;
-                txtEndereco.Text = obj.endereco;
-                txtNome.Text = obj.nome;
-                txtUF.Text = obj.uf;
-
-                hiddenfildCodigo.Value = obj.codigo.ToString();
-                btnCadastrar.Text = "Salvar";
-                ExibirMensagem("Liberado para edição!");
             }
         }
+
     }
-}
+} 
+     

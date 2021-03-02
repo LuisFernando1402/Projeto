@@ -41,8 +41,8 @@ namespace DEV0102.DAL
                 ctx.tabUsuario.Remove(obj);
                 ctx.SaveChanges();
             }
-        
-        
+
+
         }
 
         public tabUsuario ConsultarUsuarioPorCodigo(int usuarioCodigo)
@@ -63,5 +63,14 @@ namespace DEV0102.DAL
                 ctx.SaveChanges();
             }
         }
-    }
+        public List<tabUsuario> listartodosusuario()
+       {
+            using(DEV0102Entities ctx = new DEV0102Entities())
+            {
+                return ctx.tabUsuario.Where(campo => campo.codigo > 1 ).ToList();
+            }
 }
+      } 
+ }
+      
+    

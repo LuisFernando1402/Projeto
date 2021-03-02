@@ -21,6 +21,8 @@
             <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click" />
             <br />
             <asp:LinkButton ID="btnEsqueciSenha" runat="server" Text="Esqueci a senha" OnClick="btnEsqueciSenha_Click"></asp:LinkButton>
+            <asp:Button ID="btncadastro" runat="server" Text="Cadastrar se " OnClientClick="return confirm('Deseja se cadastrar?')" OnClick="btncadastro_Click" />
+            
 
         </div>
     </form>
